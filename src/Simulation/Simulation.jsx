@@ -1,0 +1,106 @@
+import React from 'react';
+import simulate from '../SimulationScripts/simulation.js'
+import edgeListToGraph from '../SimulationScripts/graphUtils.js';
+
+import '../css/Simulation.css'
+
+import HorizonSelector from './HorizonSelector.jsx';
+import ContactSelector from './ContactSelector.jsx';
+import KarateClass from './exampleNetworks/Karate.jsx';
+import ModelSelector from './ModelSelector.jsx';
+import GraphCytoscape from './GraphCytoscape.jsx';
+import SIModel from './exampleModels/SIModel.jsx';
+
+class Simulation extends React.Component{
+	constructor(props){
+		super(props);
+		// bind this to the function as it is calles from elsewhere
+		this.horizonChange = this.horizonChange.bind(this);
+		this.networkChange = this.networkChange.bind(this);
+		this.modelChanged = this.modelChanged.bind(this);
+		this.recalculate = this.recalculate.bind(this);
+
+    //HERE WE SET THE DEFAULT VALUES, THIS MUST BE CONSISTEN!!!!!
+		this.networkObject = new KarateClass();
+    this.modelObject = new SIModel();
+
+    //initialize the state correctly
+    var selectedModel = this.modelObject;
+    var graphData = edgeListToGraph(this.networkObject.getGraph());
+    var rules = selectedModel.getRules();
+    var states = selectedModel.getStates();
+    var initial_distribution = selectedModel.getDistribution();
+
+		this.state = {rules: rules, states: states, initial_distribution: initial_distribution, graphData: graphData, horizon: 20.0, selectedNetwork: this.networkObject, selectedModel: this.modelObject, simulationData: undefined,};
+	}
+
+	componentDidMount(){
+    this.recalculate();
+	}
+
+	horizonChange(e){
+		if(e.target.value > 200){
+			e.target.value = 200
+		}
+		this.setState({
+			horizon: e.target.value
+		});
+	}
+
+	networkChange(newNetwork){
+		this.setState({selectedNetwork: newNetwork});
+	}
+
+  modelChanged(newModel) {
+    this.setState({selectedModel: newModel});
+  }
+
+	recalculate(){
+    var selectedModel = this.state.selectedModel;
+    var graphData = edgeListToGraph(this.state.selectedNetwork.getGraph());
+    var rules = selectedModel.getRules();
+    var states = selectedModel.getStates();
+    var initial_distribution = selectedModel.getDistribution();
+    //update the values based on selected Models/Networks
+    //Simulate with given data
+    var newSimulationData = simulate(rules, states, initial_distribution, this.state.selectedNetwork.getGraph(), this.state.horizon);
+
+    this.setState({graphData: graphData, rules: rules, states: states, initial_distribution: initial_distribution, simulationData: newSimulationData});
+	}
+
+	render(){
+		//return (
+		//<div id="Simulation">
+      //<div id="SimulationSettings">
+        //<HorizonSelector
+        //handleChange={this.horizonChange}
+        //currentValue={this.state.horizon}/>
+        //<ContactSelector handleChange={this.networkChange}/>
+        //<ModelSelector handleChange={this.modelChanged}/>
+        //<button id="recalculate" onClick={this.recalculate}>Recalculate</button>
+      //</div>
+      //<div id="SimulationGraph">
+        //<DynamicGraph
+        //nodes={this.state.graphData.nodes}
+        //links={this.state.graphData.links}/>
+      //</div>
+    //</div>
+		//);
+    return (
+    <div id="Simulation">
+      <div id="SimulationSettings">
+        <HorizonSelector
+        handleChange={this.horizonChange}
+        currentValue={this.state.horizon}/>
+        <ContactSelector handleChange={this.networkChange}/>
+        <ModelSelector handleChange={this.modelChanged}/>
+        <button id="recalculate" onClick={this.recalculate}>Recalculate</button>
+      </div>
+      <div id="SimulationGraph">
+        <GraphCytoscape graphData={this.state.graphData} simulationData={this.state.simulationData} colors={this.state.selectedModel.getColors()}/>
+      </div>
+    </div>
+    );
+	}
+}
+export default Simulation;

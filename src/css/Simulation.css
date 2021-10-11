@@ -1,0 +1,27 @@
+#Simulation  {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+
+#SimulationSettings {
+  width: 60%;
+  height: 100%;
+  flex: 50%;
+  text-align: center;
+}
+
+#SimulationGraph {
+  width: 40%;
+  height: 100%;
+}
+
+/* Responsive layout - makes a one column layout instead of a two-column layout */
+@media screen and (max-width: 800px) {
+  #SimulationSettings, #SimulationGraph {
+    width: 100%;
+  }
+  #Simulation {
+    flex-direction: column;
+  }
+}
