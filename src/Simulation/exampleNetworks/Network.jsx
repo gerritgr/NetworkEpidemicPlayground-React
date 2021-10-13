@@ -1,4 +1,5 @@
 import React from "react";
+import '../../css/Network.css'
 
 class Network extends React.Component{
 	constructor(optionName, graph){

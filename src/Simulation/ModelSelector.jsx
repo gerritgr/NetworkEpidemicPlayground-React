@@ -13,9 +13,11 @@ class ModelSelector extends React.Component{
     this.SIModel = new SIModel();
     this.SEIRSModel = new SEIRSModel();
     this.CoronaModel = new CoronaModel();
-    //this.custom = new Custom();
 
-		this.state = {predefinedModels: [this.SIModel, this.SEIRSModel, this.CoronaModel]
+    //obligatory custom option
+    this.custom = new Custom();
+
+		this.state = {predefinedModels: [this.SIModel, this.SEIRSModel, this.CoronaModel, this.custom]
 									, currentValue: "SIModel"};
 		this.dropdownChanged = this.dropdownChanged.bind(this);
 		this.updateSelectedModel = this.updateSelectedModel.bind(this);

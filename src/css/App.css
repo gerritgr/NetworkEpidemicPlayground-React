@@ -1,2 +1,8 @@
 .App {
+  font-family: 'Roboto', sans-serif;
+  color: #eeeeee;
+}
+
+html {
+  background-color: #222831;
 }

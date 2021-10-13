@@ -96,8 +96,10 @@ class GraphCytoscape extends React.Component {
   changeAnimationDuration = (e) => {
     this.setState({animationDuration: e.target.value});
   }
+  
 
   visualizeSimulation = () => {
+    //check if we pause the animation
     console.log("new animation started");
     clearInterval(this.animationId);
     this.iteration = 0;
@@ -107,6 +109,8 @@ class GraphCytoscape extends React.Component {
     this.visualizeOneStep();
     var stepTime = this.state.animationDuration * 1000 / this.props.simulationData.length;
     this.animationId = setInterval(this.visualizeOneStep, stepTime);
+    //update the button
+    this.setState({});
   }
 
   //this is the method to visualize the simulation
@@ -116,20 +120,24 @@ class GraphCytoscape extends React.Component {
     if (data == null) {
       return;
     }
-    var nodeCount = data[0].length
     var simulationLength = data.length;
     if (this.iteration >= simulationLength) {
       console.log("finished animation");
       clearInterval(this.animationId);
+      this.iteration = 0;
+      this.setState({});
       return;
     }
+
+    //array of all nodes
+    let allNodes = this.cy.filter('node');
     //do one step
-    for (var i = 0; i < nodeCount; i++) {
+    for (var i = 0; i < allNodes.length; i++) {
       //the current state of the current node
       let state = data[this.iteration][i];
       var color = this.props.colors.find(element => element[0] === state)[1];
 
-      this.cy.getElementById(i).style('background-color', color);
+      this.cy.getElementById(allNodes[i].id()).style('background-color', color);
     }
 
     this.iteration++;
@@ -137,9 +145,14 @@ class GraphCytoscape extends React.Component {
 
   render() {
     return (<div id="graphDiv">
-      <button id="runSimulationButton" onClick={this.visualizeSimulation}>Play Simulation</button>
-      <input type="number" onChange={this.changeAnimationDuration} value={this.state.animationDuration}/>
-      <CytoscapeComponent id="cy" cy={(cy) => { this.cy = cy }} elements={this.props.graphData}/>
+      <button id="recalculate" onClick={this.props.recalculateFuntion}>Recalculate 🔁</button>
+      <button id="runSimulationButton" onClick={this.visualizeSimulation}>Play Simulation ▶️</button>
+      <div>
+      <h3 id="durationDescription">Duration (seconds): </h3>
+      <input id="animationDuration" type="number" onChange={this.changeAnimationDuration} value={this.state.animationDuration}/>
+      </div>
+      <CytoscapeComponent id="cy" userZoomingEnabled={false} userPanningEnabled={false}
+      cy={(cy) => { this.cy = cy }} elements={this.props.graphData}/>
       </div>);
   }
 }

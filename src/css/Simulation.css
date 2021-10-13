@@ -8,18 +8,22 @@
   width: 60%;
   height: 100%;
   flex: 50%;
-  text-align: center;
+  text-align: left;
 }
 
 #SimulationGraph {
   width: 40%;
   height: 100%;
+  position: sticky;
+  top: 3%;
 }
+
 
 /* Responsive layout - makes a one column layout instead of a two-column layout */
 @media screen and (max-width: 800px) {
   #SimulationSettings, #SimulationGraph {
     width: 100%;
+    position: inherit;
   }
   #Simulation {
     flex-direction: column;

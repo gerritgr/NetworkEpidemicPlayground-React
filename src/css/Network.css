@@ -1,0 +1,23 @@
+/* this also applies to network */
+.CustomInput {
+  width: 83%;
+  height: 50px;
+  background-color: #2d4059;
+  border: none;
+  border-radius: 10px;
+  padding: 10px;
+  color: #eeeeee;
+  font-size: 15pt;
+}
+
+.CustomInput:focus {
+  outline: none;
+}
+
+.CustomInput:invalid {
+  outline: solid red;
+}
+
+code {
+  font-size: 15pt;
+}

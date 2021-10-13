@@ -1,0 +1,34 @@
+#karateExplanation {
+  width: 85%;
+}
+
+.ColorPicker {
+  display: inline-block;
+  margin-left: 150px;
+  margin-top: 5px;
+  width: 60px;
+  height: 30px;
+  transform: translateY(37px);
+}
+
+/* valudation text thingy */
+.DistributionStatus {
+  padding: 1px 15px 1px 15px;
+  border-radius: 10px;
+  width: fit-content;
+  margin-bottom: -10px;
+  transition: width 1s;
+}
+
+.valid {
+  background-color: green;
+}
+
+.invalid {
+  background-color: red;
+}
+
+/* padding for the validation below */
+.CustomModel {
+  margin-bottom: 15px;
+}

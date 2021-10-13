@@ -1,0 +1,18 @@
+.DropdownDescription {
+  display: inline-block;
+  font-size: 12pt;
+  margin-bottom: 10px;
+}
+
+.Dropdown {
+  color: #eeeeee;
+  font-size: 15pt;
+  display: block;
+  background-color: #2d4059;
+  outline: none;
+  border: none;
+  border-radius: 10px;
+  height: 50px;
+  width: 85%;
+  margin-bottom: 10px;
+}

@@ -61,6 +61,17 @@ class Simulation extends React.Component{
     var rules = selectedModel.getRules();
     var states = selectedModel.getStates();
     var initial_distribution = selectedModel.getDistribution();
+
+    //first check if the distribution is equal to ~1
+    let sum = 0;
+    initial_distribution.forEach((element) => {
+      sum += element;
+    });
+    //check if the distribution is about 1
+    if (sum < 0.95 || sum > 1.05) {
+      return;
+    }
+
     //update the values based on selected Models/Networks
     //Simulate with given data
     var newSimulationData = simulate(rules, states, initial_distribution, this.state.selectedNetwork.getGraph(), this.state.horizon);
@@ -69,23 +80,6 @@ class Simulation extends React.Component{
 	}
 
 	render(){
-		//return (
-		//<div id="Simulation">
-      //<div id="SimulationSettings">
-        //<HorizonSelector
-        //handleChange={this.horizonChange}
-        //currentValue={this.state.horizon}/>
-        //<ContactSelector handleChange={this.networkChange}/>
-        //<ModelSelector handleChange={this.modelChanged}/>
-        //<button id="recalculate" onClick={this.recalculate}>Recalculate</button>
-      //</div>
-      //<div id="SimulationGraph">
-        //<DynamicGraph
-        //nodes={this.state.graphData.nodes}
-        //links={this.state.graphData.links}/>
-      //</div>
-    //</div>
-		//);
     return (
     <div id="Simulation">
       <div id="SimulationSettings">
@@ -94,10 +88,10 @@ class Simulation extends React.Component{
         currentValue={this.state.horizon}/>
         <ContactSelector handleChange={this.networkChange}/>
         <ModelSelector handleChange={this.modelChanged}/>
-        <button id="recalculate" onClick={this.recalculate}>Recalculate</button>
       </div>
       <div id="SimulationGraph">
-        <GraphCytoscape graphData={this.state.graphData} simulationData={this.state.simulationData} colors={this.state.selectedModel.getColors()}/>
+        <GraphCytoscape recalculateFuntion={this.recalculate}
+        graphData={this.state.graphData} simulationData={this.state.simulationData} colors={this.state.selectedModel.getColors()}/>
       </div>
     </div>
     );

@@ -1,4 +1,5 @@
 import React from 'react';
+import '../css/Dropdown.css'
 
 class Dropdown extends React.Component{
 	constructor(props){
@@ -20,8 +21,8 @@ class Dropdown extends React.Component{
 	render(){
 		return(
 			<div className='DropdownDiv'>
-				<label htmlFor='Dropdown' className='dropdownDescription'>{this.props.description}</label>
-				<select id='Dropdown'
+				<label htmlFor='Dropdown' className='DropdownDescription'>{this.props.description}</label>
+				<select className='Dropdown'
 				name={this.props.name}
         onChange={this.changeVal}>
 					{this.props.options.map(this.createOption)}
