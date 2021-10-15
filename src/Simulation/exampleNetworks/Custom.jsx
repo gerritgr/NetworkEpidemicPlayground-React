@@ -41,7 +41,6 @@ class Custom extends Network {
       output.push(newEntry);
     });
 
-    console.log(output);
     return output;
   }
 

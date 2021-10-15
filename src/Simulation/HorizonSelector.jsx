@@ -6,7 +6,7 @@ class HorizonSelector extends React.Component{
 		return (
 			<div id='HorizonSelector'>
 				<h2 id='HorizonSelectorName' className='selectorName'>
-					Select the animation horizon</h2>
+					Select the simulation horizon</h2>
 				<Slider description='Select Horizon'
 				handleChange={this.props.handleChange}
 				currentValue={this.props.currentValue}

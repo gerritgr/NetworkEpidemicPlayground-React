@@ -63,19 +63,41 @@ class Model extends React.Component {
     this.props.updateSelectedModel(this);
   }
 
-  checkValidity() {
-    let sum = 0;
-    this.getDistribution().forEach((element) => {
-      sum += element;
+  //normalize the distribution to 1 to ease the user experience with a button
+  normalizeDistribution = () => {
+    let sum = this.calculateSumOfDistributions();
+    // do not act if we have a sum of 1
+    if (sum === 0) {
+      return;
+    }
+    //check if we need to add or remove it by changing the sign
+    this.states = this.states.map((element) => {
+      element[1] = Number((element[1] / sum).toPrecision(2));
+      return element;
     });
+    //update
+    this.valid = true;
+    this.setState({});
+  }
+
+  checkValidity() {
+    let sum = this.calculateSumOfDistributions();
     //check if the distribution is about 1
-    if (sum < 0.98 || sum > 1.02) {
+    if (sum < 0.99 || sum > 1.01) {
       //this.setState({valid: false});
       this.valid = false;
       return;
     }
     //this.setState({valid: true});
     this.valid = true;
+  }
+
+  calculateSumOfDistributions() {
+    let sum = 0;
+    this.getDistribution().forEach((element) => {
+      sum += element;
+    });
+    return sum;
   }
 
   changeDistribution = (spot, e) =>  {
@@ -115,7 +137,7 @@ class Model extends React.Component {
 
   //build the sliders for the initial distribution
   buildSlidersDistribution() {
-    var output = [<DistributionStatus key="validation" valid={this.valid}/>];
+    var output = [<button key="normalization" id="normalizeDistribution" onClick={this.normalizeDistribution}>Normalize distribution 🔔</button>, <DistributionStatus key="validation" valid={this.valid}/>];
     var count = 0;
     this.states.forEach((s) => {
       //clamp description

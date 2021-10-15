@@ -4,7 +4,7 @@ class DistributionStatus extends React.Component{
 	render(){
     if (this.props.valid === true) {
       return(<div className="DistributionStatus valid"><h3 className="StatusText">
-          The distribution is valid ✅
+          The total distribution is equal to 1 ✅
         </h3></div>);
     }
     else {

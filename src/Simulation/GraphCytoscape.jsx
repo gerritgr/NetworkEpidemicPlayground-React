@@ -129,8 +129,13 @@ class GraphCytoscape extends React.Component {
       return;
     }
 
+    //if this is null do not continue => bug
+    if (this.props.colors == null) {
+      console.log("no colors were given");
+      return;
+    }
     //array of all nodes
-    let allNodes = this.cy.filter('node');
+    let allNodes = this.cy.elements('node');
     //do one step
     for (var i = 0; i < allNodes.length; i++) {
       //the current state of the current node

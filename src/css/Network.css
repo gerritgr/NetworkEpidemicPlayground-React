@@ -15,7 +15,7 @@
 }
 
 .CustomInput:invalid {
-  outline: solid red;
+  outline: solid #ff225b;
 }
 
 code {

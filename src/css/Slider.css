@@ -59,15 +59,16 @@ input[type="range"]::-moz-range-thumb {
 
 .SliderValue {
   display: inline-block;
-  width: 3em;
+  width: 2.6em;
   /*transform: translateY(-3px);*/
-  margin-left: 1em;
+  margin-left: 2%;
   background-color: #222831;
   color: #ff5722;
   border-color: #ff5722;
   border-style: none;
   border-radius: 3px;
   font-size: 15pt;
+  outline: solid;
 }
 
 .SliderValue:focus {
