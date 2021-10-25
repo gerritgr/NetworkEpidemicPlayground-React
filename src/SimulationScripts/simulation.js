@@ -97,15 +97,28 @@ function get_next_state(current_labels){
 
 
 function count_states(current_labels){
-	let counter = [states.length];
+	var counter = [];
+
+  for (var _ in states) {
+    counter.push(0);
+  }
+
 
 	simulation.push(current_labels);
+
 	for(var label in current_labels){
-		label = current_labels[label];
-		let index = states[ label ];
+    label = current_labels[label];
+    let index = states.indexOf(label);
 		counter[index] += 1;
 	}
+
+  let newX = state_counts[0]["values"].length;
+  //add to the global counter value
+  for (var i = 0; i < states.length; i++) {
+    state_counts[i]["values"].push( [newX, counter[i]] );
+  }
 }
+
 function generateNodes(edgelist){
 	let allNodes = [];
 	for(var e in edgelist){
@@ -176,7 +189,7 @@ let timepoints_samples;
 let current_labels;
 let global_clock;
 let labels = [];
-let state_counts = [];
+let state_counts = {};
 
 function simulate(newRules, newStates, newDistr, newGraph, newHorizon){
 	simulation = [];
@@ -192,17 +205,24 @@ function simulate(newRules, newStates, newDistr, newGraph, newHorizon){
 	global_clock = 0;
 	labels = [];
 	state_counts = [];
+  
+  //initiate count_states
+  for (var state in states) {
+    state = states[state];
+    state_counts.push({key: state, values: []});
+  }
+
 	while(timepoints_samples.length > 0){
 		let [new_labels, time_passed] = get_next_state(current_labels);
 		global_clock += time_passed;
 		while(timepoints_samples.length > 0 && global_clock > timepoints_samples[0]){
 			labels.push(Array.from(current_labels));
-			state_counts.push(count_states(current_labels));
+			count_states(current_labels);
 			timepoints_samples = timepoints_samples.slice(1, timepoints_samples.length);
 		}
 		current_labels = new_labels;
 	}
-	return simulation;
+	return {data: simulation, stateCounts: state_counts};
 }
 
 export default simulate;

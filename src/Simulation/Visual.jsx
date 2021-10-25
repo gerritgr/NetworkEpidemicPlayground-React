@@ -1,9 +1,13 @@
 import React from 'react';
 import CytoscapeComponent from 'react-cytoscapejs';
 import '../css/Graph.css'
+import '../css/Chart.css'
 import Slider from './Slider';
+import NVD3Chart from 'react-nvd3';
+import d3 from 'd3';
 
-class GraphCytoscape extends React.Component {
+//this component is the right side
+class Visual extends React.Component {
   constructor(props) {
     super(props);
     this.animationLength = 101;
@@ -11,6 +15,7 @@ class GraphCytoscape extends React.Component {
     this.stepTime = 0;
     this.neverPlayed = true;
     this.state ={animationDuration: 4, step: 0, playing: false};
+    console.log(require("./data.json"));
   }
 
   componentDidMount() {
@@ -110,7 +115,7 @@ class GraphCytoscape extends React.Component {
   //remove steps where the animation does not change
   cropAnimation = () => {
     console.log("hello");
-    var data = this.props.simulationData;
+    var data = this.props.simulationData.data;
     var lastState = data.length - 1;
     for (var i = data.length - 1; i > 0; i--) {
       //if (this.checkIfStatesAreEqual(data, lastState, i)) {
@@ -166,7 +171,7 @@ class GraphCytoscape extends React.Component {
   //this is the method to visualize the simulation
   visualizeOneStep = (increment = true) => {
     //the data of the simulation is stored in: this.props.simulationData
-    var data = this.props.simulationData;
+    var data = this.props.simulationData.data;
     if (data == null) {
       return;
     }
@@ -229,11 +234,29 @@ class GraphCytoscape extends React.Component {
     }
   }
 
+  calculateChartData = () => {
+    console.log(this.props.simulationData.stateCounts);
+    for (let i = 0; i < this.props.simulationData.stateCounts.length; i++) {
+      //set color
+      this.props.simulationData.stateCounts[i].color = 
+        this.props.colors.find(element => element[0] ===
+          this.props.simulationData.stateCounts[i]["key"]
+        )[1]
+      //apply cropping
+      this.props.simulationData.stateCounts[i]["values"] = 
+        this.props.simulationData.stateCounts[i]["values"].slice(0, this.animationLength);
+    }
+    return this.props.simulationData.stateCounts;
+  }
+
+
   render() {
     var playPauseString = "Play Simulation ▶️";
     if (this.state.playing) {
       playPauseString = "Stop Simulation ⏹️";
     }
+    //show directed graph *or* chart
+    //we want this to be a "tabbed" approach
     return (<div id="graphDiv">
       <button id="recalculate" onClick={this.recalculate}>Recalculate 🔁</button>
       <button id="runSimulationButton" onClick={this.visualizeSimulation}>{playPauseString}</button>
@@ -244,8 +267,11 @@ class GraphCytoscape extends React.Component {
       <Slider description="Step" min="0" max={this.animationLength} currentValue={this.state.step} handleChange={this.visualizeSpecificStep}/>
       <CytoscapeComponent id="cy" userZoomingEnabled={false} userPanningEnabled={false}
       cy={(cy) => { this.cy = cy }} elements={this.props.graphData}/>
+      <div id="chart">
+      <NVD3Chart type="stackedAreaChart" xAxis={{ tickFormat: (d) => d3.time.format('%x')(new Date(d)) }} datum={this.calculateChartData} x={(d) => d[0]} y={(d) => d[1]} />
+      </div>
       </div>);
   }
 }
 
-export default GraphCytoscape;
+export default Visual;

@@ -8,8 +8,8 @@ import HorizonSelector from './HorizonSelector.jsx';
 import ContactSelector from './ContactSelector.jsx';
 import KarateClass from './exampleNetworks/Karate.jsx';
 import ModelSelector from './ModelSelector.jsx';
-import GraphCytoscape from './GraphCytoscape.jsx';
 import SIModel from './exampleModels/SIModel.jsx';
+import Visual from './Visual.jsx';
 
 class Simulation extends React.Component{
 	constructor(props){
@@ -90,7 +90,7 @@ class Simulation extends React.Component{
         <ModelSelector handleChange={this.modelChanged}/>
       </div>
       <div id="SimulationGraph">
-        <GraphCytoscape recalculateFuntion={this.recalculate}
+        <Visual recalculateFuntion={this.recalculate}
         graphData={this.state.graphData} simulationData={this.state.simulationData} colors={this.state.selectedModel.getColors()} normalize={this.state.selectedModel.normalizeDistribution}/>
       </div>
     </div>
