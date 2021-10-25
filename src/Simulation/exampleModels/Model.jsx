@@ -106,7 +106,7 @@ class Model extends React.Component {
     this.states[spot][1] = Number(e.target.value);
     //update
     this.props.updateSelectedModel(this);
-    this.checkValidity();
+    //this.checkValidity();
   }
 
   changeColor = (spot, e) => {
@@ -137,7 +137,8 @@ class Model extends React.Component {
 
   //build the sliders for the initial distribution
   buildSlidersDistribution() {
-    var output = [<button key="normalization" id="normalizeDistribution" onClick={this.normalizeDistribution}>Normalize distribution 🔔</button>, <DistributionStatus key="validation" valid={this.valid}/>];
+    //var output = [<button key="normalization" id="normalizeDistribution" onClick={this.normalizeDistribution}>Normalize distribution 🔔</button>, <DistributionStatus key="validation" valid={this.valid}/>];
+    var output = [];
     var count = 0;
     this.states.forEach((s) => {
       //clamp description
@@ -160,9 +161,9 @@ class Model extends React.Component {
   render() {
     return (
       <div className="modelSelector">
-        <h3 id="selectRulesHeader">Change state transition probabilities</h3>
+        <h3 id="selectRulesHeader">Transition Rates</h3>
         {this.buildSliders(this.ruleMax, this.ruleStep)}
-        <h3 id="selectDistributionHeader">Change initial distribution of states</h3>
+        <h3 id="selectDistributionHeader">Initial Distribution</h3>
         {this.buildSlidersDistribution()}
       </div>
     );

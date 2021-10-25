@@ -91,7 +91,7 @@ class Simulation extends React.Component{
       </div>
       <div id="SimulationGraph">
         <GraphCytoscape recalculateFuntion={this.recalculate}
-        graphData={this.state.graphData} simulationData={this.state.simulationData} colors={this.state.selectedModel.getColors()}/>
+        graphData={this.state.graphData} simulationData={this.state.simulationData} colors={this.state.selectedModel.getColors()} normalize={this.state.selectedModel.normalizeDistribution}/>
       </div>
     </div>
     );

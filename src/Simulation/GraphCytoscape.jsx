@@ -1,29 +1,39 @@
 import React from 'react';
 import CytoscapeComponent from 'react-cytoscapejs';
 import '../css/Graph.css'
+import Slider from './Slider';
 
 class GraphCytoscape extends React.Component {
   constructor(props) {
     super(props);
+    this.animationLength = 101;
     this.cy = React.createRef();
-    this.iteration = 0;
-    this.state ={animationDuration: 4};
+    this.stepTime = 0;
+    this.neverPlayed = true;
+    this.state ={animationDuration: 4, step: 0, playing: false};
   }
 
   componentDidMount() {
     //initial layout
     this.layoutGraph();
-    this.iteration = 0;
-    this.visualizeOneStep();
+    this.setState({step: 0}, () => {
+      //crop animation
+      this.cropAnimation();
+      this.visualizeOneStep(false);
+    });
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps, _) {
     //only recalculate the layout if graph has changed
     if (prevProps.graphData !== this.props.graphData) {
       this.layoutGraph();
-      this.iteration = 0;
-      clearInterval(this.animationId);
-      this.visualizeOneStep();
+      this.setState({step: 0}, () => {
+        //first crop the animation
+        this.cropAnimation();
+        clearInterval(this.animationId);
+        this.setState({playing: false});
+        this.visualizeOneStep(false);
+      });
     }
 
     //we could check here if the simulation should start displaying
@@ -53,7 +63,7 @@ class GraphCytoscape extends React.Component {
       // The layout animates only after this many milliseconds for animate:true
       // (prevents flashing on fast runs)
       animationThreshold: 250,
-      // Number of iterations between consecutive screen positions update
+      // Number of steps between consecutive screen positions update
       refresh: 20,
       // Whether to fit the network view after when done
       fit: true,
@@ -79,11 +89,11 @@ class GraphCytoscape extends React.Component {
       nestingFactor: 1.2,
       // Gravity force (constant)
       gravity: 1,
-      // Maximum number of iterations to perform
+      // Maximum number of steps to perform
       numIter: 1000,
       // Initial temperature (maximum node displacement)
       initialTemp: 1000,
-      // Cooling factor (how the temperature is reduced between consecutive iterations
+      // Cooling factor (how the temperature is reduced between consecutive steps
       coolingFactor: 0.99,
       // Lower temperature threshold (below this point the layout will end)
       minTemp: 1.0
@@ -97,36 +107,77 @@ class GraphCytoscape extends React.Component {
     this.setState({animationDuration: e.target.value});
   }
   
+  //remove steps where the animation does not change
+  cropAnimation = () => {
+    console.log("hello");
+    var data = this.props.simulationData;
+    var lastState = data.length - 1;
+    for (var i = data.length - 1; i > 0; i--) {
+      //if (this.checkIfStatesAreEqual(data, lastState, i)) {
+        //lastState = i;
+      //}
+      if (data[lastState] === data[i]) {
+        lastState = i;
+      }
+    }
+    this.animationLength = lastState + 1;
+  }
+
+  checkIfStatesAreEqual(data, stateOne, stateTwo) {
+    for (var i = 0; i < stateOne.length; i++) {
+      if (stateOne[i] !== stateTwo[i]) {
+        return false;
+      }
+    }
+    return true;
+  }
 
   visualizeSimulation = () => {
-    //check if we pause the animation
-    console.log("new animation started");
-    clearInterval(this.animationId);
-    this.iteration = 0;
-    if (this.state.animationDuration <= 0) {
-      this.setState({animationDuration: 4});
+    if (this.state.playing) {
+      clearInterval(this.animationId);
+      this.setState({playing: false});
+      return;
+    } else if (this.state.step < this.animationLength && !this.neverPlayed) {
+      this.animationId = setInterval(this.visualizeOneStep, this.stepTime);
+      this.setState({playing: true});
+      return;
     }
-    this.visualizeOneStep();
-    var stepTime = this.state.animationDuration * 1000 / this.props.simulationData.length;
-    this.animationId = setInterval(this.visualizeOneStep, stepTime);
-    //update the button
-    this.setState({});
+    this.neverPlayed = false;
+    //check if we pause the animation
+    clearInterval(this.animationId);
+    console.log("new animation started");
+    this.setState({playing: false});
+    //first we need to normalize the distribution
+    this.props.normalize();
+
+    this.setState({step: 0}, () => {
+      if (this.state.animationDuration <= 0) {
+        this.setState({animationDuration: Math.abs(this.state.animationDuration)});
+      }
+      
+      this.stepTime = (this.state.animationDuration) * 1000 / this.animationLength;
+      this.animationId = setInterval(this.visualizeOneStep, this.stepTime);
+      this.setState({playing: true});
+      //update the button
+      this.setState({});
+    });
   }
 
   //this is the method to visualize the simulation
-  visualizeOneStep = () => {
+  visualizeOneStep = (increment = true) => {
     //the data of the simulation is stored in: this.props.simulationData
     var data = this.props.simulationData;
     if (data == null) {
       return;
     }
-    var simulationLength = data.length;
-    if (this.iteration >= simulationLength) {
+    if (this.state.step >= this.animationLength) {
       console.log("finished animation");
       clearInterval(this.animationId);
-      this.iteration = 0;
-      this.setState({});
+      this.setState({playing: false});
       return;
+      //this.setState({step: 0}, () => {
+        //return;
+      //});
     }
 
     //if this is null do not continue => bug
@@ -139,23 +190,58 @@ class GraphCytoscape extends React.Component {
     //do one step
     for (var i = 0; i < allNodes.length; i++) {
       //the current state of the current node
-      let state = data[this.iteration][i];
+      let state = data[this.state.step][i];
       var color = this.props.colors.find(element => element[0] === state)[1];
 
-      this.cy.getElementById(allNodes[i].id()).style('background-color', color);
-    }
+      this.cy.getElementById(allNodes[i].id()).style('background-color', color); }
 
-    this.iteration++;
+    if (increment) {
+      this.setState({step: this.state.step + 1});
+    } else {
+      //update
+      this.setState({});
+    }
+  }
+
+  visualizeSpecificStep = (e) => {
+    var val = Number(e.target.value);
+    if (val < 0 && val > this.animationLength) {
+      return;
+    }
+    //first stop the current animation
+    clearInterval(this.animationId);
+    this.setState({playing: false});
+    this.setState({step: val}, () => {
+      this.visualizeOneStep(false);
+    });
+  }
+
+  recalculate = () => {
+    //normalize
+    this.props.normalize();
+    //then recalculate
+    this.props.recalculateFuntion();
+  }
+
+  renderPlayPauseButton = () => {
+    if (this.state.playing) {
+      return 
+    }
   }
 
   render() {
+    var playPauseString = "Play Simulation ▶️";
+    if (this.state.playing) {
+      playPauseString = "Stop Simulation ⏹️";
+    }
     return (<div id="graphDiv">
-      <button id="recalculate" onClick={this.props.recalculateFuntion}>Recalculate 🔁</button>
-      <button id="runSimulationButton" onClick={this.visualizeSimulation}>Play Simulation ▶️</button>
+      <button id="recalculate" onClick={this.recalculate}>Recalculate 🔁</button>
+      <button id="runSimulationButton" onClick={this.visualizeSimulation}>{playPauseString}</button>
       <div>
       <h3 id="durationDescription">Duration (seconds): </h3>
       <input id="animationDuration" type="number" onChange={this.changeAnimationDuration} value={this.state.animationDuration}/>
       </div>
+      <Slider description="Step" min="0" max={this.animationLength} currentValue={this.state.step} handleChange={this.visualizeSpecificStep}/>
       <CytoscapeComponent id="cy" userZoomingEnabled={false} userPanningEnabled={false}
       cy={(cy) => { this.cy = cy }} elements={this.props.graphData}/>
       </div>);
