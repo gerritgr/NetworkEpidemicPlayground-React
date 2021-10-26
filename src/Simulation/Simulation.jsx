@@ -9,7 +9,7 @@ import ContactSelector from './ContactSelector.jsx';
 import KarateClass from './exampleNetworks/Karate.jsx';
 import ModelSelector from './ModelSelector.jsx';
 import SIModel from './exampleModels/SIModel.jsx';
-import Visual from './Visual.jsx';
+import Visual from './visualizations/Visual.jsx';
 
 class Simulation extends React.Component{
 	constructor(props){
@@ -34,9 +34,13 @@ class Simulation extends React.Component{
 		this.state = {rules: rules, states: states, initial_distribution: initial_distribution, graphData: graphData, horizon: 20.0, selectedNetwork: this.networkObject, selectedModel: this.modelObject, simulationData: undefined,};
 	}
 
-	componentDidMount(){
+  componentWillMount() {
     this.recalculate();
-	}
+  }
+
+	//componentDidMount(){
+    //this.recalculate();
+	//}
 
 	horizonChange(e){
 		if(e.target.value > 200){

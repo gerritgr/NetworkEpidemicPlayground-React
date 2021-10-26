@@ -127,7 +127,10 @@ function generateNodes(edgelist){
 		allNodes.push(e[1]);
 	}
 	//sort
-	allNodes = allNodes.sort((a, b) => (a > b));
+  allNodes = allNodes.sort(function(a, b) {
+    return a - b;
+  });
+
 	//remove duplicates
 	let finalArray = [];
 	var last = -1;
@@ -205,6 +208,7 @@ function simulate(newRules, newStates, newDistr, newGraph, newHorizon){
 	global_clock = 0;
 	labels = [];
 	state_counts = [];
+
   
   //initiate count_states
   for (var state in states) {

@@ -1,21 +1,16 @@
 import React from 'react';
 import CytoscapeComponent from 'react-cytoscapejs';
-import '../css/Graph.css'
-import '../css/Chart.css'
-import Slider from './Slider';
-import NVD3Chart from 'react-nvd3';
-import d3 from 'd3';
+import '../../css/Graph.css'
+import Slider from '../Slider';
 
-//this component is the right side
-class Visual extends React.Component {
+class Graph extends React.Component {
   constructor(props) {
     super(props);
-    this.animationLength = 101;
+    //this.props.animationLength = 101;
     this.cy = React.createRef();
     this.stepTime = 0;
     this.neverPlayed = true;
     this.state ={animationDuration: 4, step: 0, playing: false};
-    console.log(require("./data.json"));
   }
 
   componentDidMount() {
@@ -23,7 +18,6 @@ class Visual extends React.Component {
     this.layoutGraph();
     this.setState({step: 0}, () => {
       //crop animation
-      this.cropAnimation();
       this.visualizeOneStep(false);
     });
   }
@@ -34,7 +28,6 @@ class Visual extends React.Component {
       this.layoutGraph();
       this.setState({step: 0}, () => {
         //first crop the animation
-        this.cropAnimation();
         clearInterval(this.animationId);
         this.setState({playing: false});
         this.visualizeOneStep(false);
@@ -112,37 +105,12 @@ class Visual extends React.Component {
     this.setState({animationDuration: e.target.value});
   }
   
-  //remove steps where the animation does not change
-  cropAnimation = () => {
-    console.log("hello");
-    var data = this.props.simulationData.data;
-    var lastState = data.length - 1;
-    for (var i = data.length - 1; i > 0; i--) {
-      //if (this.checkIfStatesAreEqual(data, lastState, i)) {
-        //lastState = i;
-      //}
-      if (data[lastState] === data[i]) {
-        lastState = i;
-      }
-    }
-    this.animationLength = lastState + 1;
-  }
-
-  checkIfStatesAreEqual(data, stateOne, stateTwo) {
-    for (var i = 0; i < stateOne.length; i++) {
-      if (stateOne[i] !== stateTwo[i]) {
-        return false;
-      }
-    }
-    return true;
-  }
-
   visualizeSimulation = () => {
     if (this.state.playing) {
       clearInterval(this.animationId);
       this.setState({playing: false});
       return;
-    } else if (this.state.step < this.animationLength && !this.neverPlayed) {
+    } else if (this.state.step < this.props.animationLength && !this.neverPlayed) {
       this.animationId = setInterval(this.visualizeOneStep, this.stepTime);
       this.setState({playing: true});
       return;
@@ -160,7 +128,7 @@ class Visual extends React.Component {
         this.setState({animationDuration: Math.abs(this.state.animationDuration)});
       }
       
-      this.stepTime = (this.state.animationDuration) * 1000 / this.animationLength;
+      this.stepTime = (this.state.animationDuration) * 1000 / this.props.animationLength;
       this.animationId = setInterval(this.visualizeOneStep, this.stepTime);
       this.setState({playing: true});
       //update the button
@@ -171,11 +139,11 @@ class Visual extends React.Component {
   //this is the method to visualize the simulation
   visualizeOneStep = (increment = true) => {
     //the data of the simulation is stored in: this.props.simulationData
-    var data = this.props.simulationData.data;
+    var data = this.props.simulationData;
     if (data == null) {
       return;
     }
-    if (this.state.step >= this.animationLength) {
+    if (this.state.step > this.props.animationLength) {
       console.log("finished animation");
       clearInterval(this.animationId);
       this.setState({playing: false});
@@ -210,7 +178,7 @@ class Visual extends React.Component {
 
   visualizeSpecificStep = (e) => {
     var val = Number(e.target.value);
-    if (val < 0 && val > this.animationLength) {
+    if (val < 0 || val > this.props.animationLength) {
       return;
     }
     //first stop the current animation
@@ -219,34 +187,6 @@ class Visual extends React.Component {
     this.setState({step: val}, () => {
       this.visualizeOneStep(false);
     });
-  }
-
-  recalculate = () => {
-    //normalize
-    this.props.normalize();
-    //then recalculate
-    this.props.recalculateFuntion();
-  }
-
-  renderPlayPauseButton = () => {
-    if (this.state.playing) {
-      return 
-    }
-  }
-
-  calculateChartData = () => {
-    console.log(this.props.simulationData.stateCounts);
-    for (let i = 0; i < this.props.simulationData.stateCounts.length; i++) {
-      //set color
-      this.props.simulationData.stateCounts[i].color = 
-        this.props.colors.find(element => element[0] ===
-          this.props.simulationData.stateCounts[i]["key"]
-        )[1]
-      //apply cropping
-      this.props.simulationData.stateCounts[i]["values"] = 
-        this.props.simulationData.stateCounts[i]["values"].slice(0, this.animationLength);
-    }
-    return this.props.simulationData.stateCounts;
   }
 
 
@@ -258,20 +198,16 @@ class Visual extends React.Component {
     //show directed graph *or* chart
     //we want this to be a "tabbed" approach
     return (<div id="graphDiv">
-      <button id="recalculate" onClick={this.recalculate}>Recalculate 🔁</button>
       <button id="runSimulationButton" onClick={this.visualizeSimulation}>{playPauseString}</button>
       <div>
       <h3 id="durationDescription">Duration (seconds): </h3>
       <input id="animationDuration" type="number" onChange={this.changeAnimationDuration} value={this.state.animationDuration}/>
       </div>
-      <Slider description="Step" min="0" max={this.animationLength} currentValue={this.state.step} handleChange={this.visualizeSpecificStep}/>
+      <Slider description="Step" min="0" max={this.props.animationLength} currentValue={this.state.step} handleChange={this.visualizeSpecificStep}/>
       <CytoscapeComponent id="cy" userZoomingEnabled={false} userPanningEnabled={false}
       cy={(cy) => { this.cy = cy }} elements={this.props.graphData}/>
-      <div id="chart">
-      <NVD3Chart type="stackedAreaChart" xAxis={{ tickFormat: (d) => d3.time.format('%x')(new Date(d)) }} datum={this.calculateChartData} x={(d) => d[0]} y={(d) => d[1]} />
-      </div>
       </div>);
   }
 }
 
-export default Visual;
+export default Graph;
