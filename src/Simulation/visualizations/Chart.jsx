@@ -1,6 +1,7 @@
 import React from "react";
 import NVD3Chart from 'react-nvd3';
 import '../../css/Chart.css'
+import '../../css/nv3d.css'
 import d3 from 'd3';
 
 class Chart extends React.Component {

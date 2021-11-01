@@ -1,7 +1,4 @@
 #chart svg {
-  height: 400px;
+  min-height: 400px;
   width: 100%;
-}
-.nv-point-paths {
-  display: none;
 }

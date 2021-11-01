@@ -9,7 +9,7 @@ class Visual extends React.Component {
     this.cy = React.createRef();
     this.stepTime = 0;
     this.neverPlayed = true;
-    this.state ={animationDuration: 4, step: 0, playing: false, animationLength: 100, newColors: null};
+    this.state ={animationDuration: 4, step: 0, playing: false, animationLength: 100, newColors: null, currentView: "graph"};
   }
 
   componentDidMount() {
@@ -45,16 +45,40 @@ class Visual extends React.Component {
     this.setState({newColors: this.props.colors});
   }
 
+  switchView = () => {
+    if (this.state.currentView === "graph") {
+      this.setState( {
+        currentView: "chart"
+      });
+    } else {
+      this.setState( {
+        currentView: "graph"
+      });
+    }
+  }
+
+  showGraphOrChart = () => {
+    if (this.state.currentView === "graph") {
+      return (
+        <Graph animationLength={this.state.animationLength} graphData={this.props.graphData} normalize={this.props.normalize} colors={this.props.colors} simulationData={this.props.simulationData.data}/>
+        );
+    } else {
+      return (
+        <div id="chart">
+          <Chart stateCounts={this.props.simulationData.stateCounts} colors={this.state.newColors} animationLength={this.state.animationLength}/>
+        </div>
+        );
+    }
+  }
+
   render() {
     //show directed graph *or* chart
     //we want this to be a "tabbed" approach
     //<Chart stateCounts={this.props.simulationData.stateCounts}/>
     return (<div id="graphDiv">
       <button id="recalculate" onClick={this.recalculate}>Recalculate 🔁</button>
-      <Graph animationLength={this.state.animationLength} graphData={this.props.graphData} normalize={this.props.normalize} colors={this.props.colors} simulationData={this.props.simulationData.data}/>
-      <div id="chart">
-        <Chart stateCounts={this.props.simulationData.stateCounts} colors={this.state.newColors} animationLength={this.state.animationLength}/>
-      </div>
+      <button id="switchView" onClick={this.switchView}>{this.state.currentView === "graph" ? "Show Chart 📈" : "Show Graph 📊"}</button>
+      {this.showGraphOrChart()}
       </div>);
   }
 }

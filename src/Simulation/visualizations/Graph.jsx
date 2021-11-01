@@ -154,7 +154,7 @@ class Graph extends React.Component {
     }
 
     //if this is null do not continue => bug
-    if (this.props.colors == null) {
+    if (this.props.colors == null || this.props.colors.length === 0) {
       console.log("no colors were given");
       return;
     }
