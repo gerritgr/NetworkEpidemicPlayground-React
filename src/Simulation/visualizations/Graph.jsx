@@ -1,7 +1,9 @@
 import React from 'react';
 import CytoscapeComponent from 'react-cytoscapejs';
-import '../../css/Graph.css'
+import '../../css/Graph.css';
 import Slider from '../Slider';
+import GIFGenerator from './GIFGenerator';
+//import GIF from '@dhdbstjr98/gif.js';
 
 class Graph extends React.Component {
   constructor(props) {
@@ -10,7 +12,7 @@ class Graph extends React.Component {
     this.cy = React.createRef();
     this.stepTime = 0;
     this.neverPlayed = true;
-    this.state ={animationDuration: 4, step: 0, playing: false};
+    this.state ={animationDuration: 4, step: 0, playing: false, gif: null};
   }
 
   componentDidMount() {
@@ -206,6 +208,7 @@ class Graph extends React.Component {
       <Slider description="Step" min="0" max={this.props.animationLength} currentValue={this.state.step} handleChange={this.visualizeSpecificStep}/>
       <CytoscapeComponent id="cy" userZoomingEnabled={false} userPanningEnabled={false}
       cy={(cy) => { this.cy = cy }} elements={this.props.graphData}/>
+      <GIFGenerator setState={this.setState.bind(this)} state={this.state} visualizeOneStep={this.visualizeOneStep} animationLength={this.props.animationLength}/>
       </div>);
   }
 }
