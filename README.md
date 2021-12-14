@@ -1,3 +1,7 @@
+# To serve via SERVE
+npm build
+serve -s build & disown
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
