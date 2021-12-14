@@ -1,5 +1,5 @@
 # To serve via SERVE
-npm build
+npm run build
 serve -s build & disown
 
 # Getting Started with Create React App
