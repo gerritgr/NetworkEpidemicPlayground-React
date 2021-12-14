@@ -1,5 +1,6 @@
 import React from 'react';
 import CytoscapeComponent from 'react-cytoscapejs';
+import Popup from 'reactjs-popup';
 import '../../css/Graph.css';
 import Slider from '../Slider';
 import GIFGenerator from './GIFGenerator';
@@ -201,14 +202,23 @@ class Graph extends React.Component {
     //we want this to be a "tabbed" approach
     return (<div id="graphDiv">
       <button id="runSimulationButton" onClick={this.visualizeSimulation}>{playPauseString}</button>
-      <div>
-      <h3 id="durationDescription">Duration (seconds): </h3>
-      <input id="animationDuration" type="number" onChange={this.changeAnimationDuration} value={this.state.animationDuration}/>
+      <Popup trigger={<button id="gifGeneratorButton">Generate GIF 📸</button>} modal>
+        {close => (
+        <div className="modal">
+          <button className="close" onClick={() => {close()}} >&times;</button>
+          <GIFGenerator setState={this.setState.bind(this)} state={this.state} visualizeOneStep={this.visualizeOneStep} animationLength={this.props.animationLength}/>
+        </div>
+      )}
+      </Popup>
+      <div id="durationWrapper">
+        <h3 id="durationDescription">Duration (seconds): </h3>
+        <input id="animationDuration" type="number" onChange={this.changeAnimationDuration} value={this.state.animationDuration}/>
       </div>
       <Slider description="Step" min="0" max={this.props.animationLength} currentValue={this.state.step} handleChange={this.visualizeSpecificStep}/>
       <CytoscapeComponent id="cy" userZoomingEnabled={false} userPanningEnabled={false}
       cy={(cy) => { this.cy = cy }} elements={this.props.graphData}/>
-      <GIFGenerator setState={this.setState.bind(this)} state={this.state} visualizeOneStep={this.visualizeOneStep} animationLength={this.props.animationLength}/>
+
+
       </div>);
   }
 }

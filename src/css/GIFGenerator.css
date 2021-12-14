@@ -1,6 +1,69 @@
-#generateGIFPopup {
+.popup-overlay {
+  background: rgba(0, 0, 0, 0.5);
+}
+.popup-content {
+  background-color: #2d4059;
+  /*background-color: #222831;*/
+  padding: 1em; 
+  border-radius: 30px;
+  filter: opacity(1);
+  max-width: 85%;
+}
+.modal {
+  font-size: 13pt;
+  font-family: 'Roboto', sans-serif;
+  color: #eeeeee; text-align: left;
+}
+.modal > .close {
+  color: white;
+  cursor: pointer;
   position: absolute;
-  top: 0;
-  left: 0;
-  border: solid black;
+  display: block;
+  padding: 2px 5px;
+  line-height: 20px;
+  right: -5px;
+  top: -5px;
+  font-size: 24px;
+  background: #ff5722;
+  border-radius: 18px;
+  border: 1px solid #ff5722;
+}
+.popupHeader {
+  font-size: 20pt;
+}
+.popupSection {
+  display: block;
+  margin-top: 10px;
+}
+.popupButton {
+  cursor: pointer;
+  margin: auto;
+  font-size: 16pt;
+  display: block;
+  margin-top: 10px;
+  border: none;
+  outline: none;
+  color: #eeeeee;
+  background-color: #0a8e4e;
+  border-radius: 10px;
+  padding: 5px 10px;
+  margin-top: 10px;
+}
+#gifLengthInput {
+  display: inline-block;
+  width: 1.55em;
+  /*transform: translateY(-3px);*/
+  margin-left: 2%;
+  background-color: #222831;
+  color: #ff5722;
+  border-color: #ff5722;
+  border-style: none;
+  border-radius: 3px;
+  font-size: 12pt;
+  outline: solid;
+}
+
+.gifLengthInput:focus {
+  outline-width: 0;
+  outline: solid;
 }

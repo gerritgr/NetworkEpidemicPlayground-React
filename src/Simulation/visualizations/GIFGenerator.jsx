@@ -11,8 +11,13 @@ class GIFGenerator extends React.Component {
     this.animationId = 0;
   }
 
+
   generateGIF = () => {
     //clean input
+    if(!Math.abs(Number(this.state.duration)) > 0) {
+      console.log("Only numbers are allowed in duration!");
+      return;
+    }
     this.setState({duration: Math.abs(this.state.duration)});
     var gif = new GIF( {
       workers: 2,
@@ -20,26 +25,38 @@ class GIFGenerator extends React.Component {
       repeat: this.state.loop? 0 : -1,
       background: this.state.background
     });
+
+    //set download trigger
     gif.on('finished', function(blob) {
-      window.open(URL.createObjectURL(blob));
+      const link = document.createElement('a');
+      // create a blobURI pointing to our Blob
+      link.href = URL.createObjectURL(blob);
+      link.download = "simulationGIF";
+      // some browser needs the anchor to be in the doc
+      document.body.append(link);
+      link.click();
+      link.remove();
+      // in case the Blob uses a lot of memory
+      setTimeout(() => URL.revokeObjectURL(link.href), 7000);
     });
-    let stepBehtmlFore = this.state.step;
-    
+
+    let stepBefore = this.state.step;
+
     //clear playing animation
     clearInterval(this.animationId);
 
     this.props.setState({step: 0}, () => {
       this.stepTime = 1;
       //this.animationId = setInterval(this.visualizeOneStep, this.stepTime);
-      this.animationId = setInterval(this.grabImageAndNextStep.bind(null, gif, stepBehtmlFore), this.stepTime);
+      this.animationId = setInterval(this.grabImageAndNextStep.bind(null, gif, stepBefore), this.stepTime);
       this.props.setState({playing: true});
     });
   }
 
-  grabImageAndNextStep = (gif, stepBehtmlFore) => {
+  grabImageAndNextStep = (gif, stepBefore) => {
     //check if we are at the end
     if (this.props.state.step > this.props.animationLength) {
-      this.props.setState({step: stepBehtmlFore});
+      this.props.setState({step: stepBefore});
       this.props.visualizeOneStep(false);
       clearInterval(this.animationId);
       gif.render();
@@ -57,18 +74,28 @@ class GIFGenerator extends React.Component {
   render() {
     return (
     <div id="generateGIFPopup">
-      <label htmlFor="gifDuration" id="gifLengthLabel">Duration In Seconds: </label>
-      <input htmlFor="gifDuration" type="number" id="gifLengthInput"
-      value={this.state.duration} onChange={(e) => this.setState({duration: e.target.value})}/>
-      <label htmlFor="gifBackground" id="gifBackgroundLabel">Background Color: </label>
-      <input htmlFor="gifBackground" id="gifBackgroundInput" type='color'
-      value={this.state.background}
-      onChange={(e) => this.setState({background: e.target.value})}/>
-      <label htmlFor="gifLoop" id="gifLoopLabel">Loop: </label>
-      <input htmlFor="gifLoop" id="gifLoopInput" type="checkbox" checked={this.state.loop}
-      onChange={(e) => 
-      this.setState({loop: e.target.checked})}/>
-      <button onClick ={this.generateGIF} >Generate GIF</button>
+      <div className="popupHeader">
+        GIF Generator
+      </div>
+      <div className="popupSection">
+        <label htmlFor="gifDuration" id="gifLengthLabel">Duration In Seconds: </label>
+        <input htmlFor="gifDuration" type="number" id="gifLengthInput"
+        value={this.state.duration} onChange={(e) => this.setState({duration: e.target.value})}/>
+      </div>
+
+      <div className="popupSection">
+        <label htmlFor="gifBackground" id="gifBackgroundLabel">Background Color: </label>
+        <input htmlFor="gifBackground" id="gifBackgroundInput" type='color'
+        value={this.state.background}
+        onChange={(e) => this.setState({background: e.target.value})}/>
+      </div>
+      <div className="popupSection">
+        <label htmlFor="gifLoop" id="gifLoopLabel">Loop: </label>
+        <input htmlFor="gifLoop" id="gifLoopInput" type="checkbox" checked={this.state.loop}
+        onChange={(e) => 
+        this.setState({loop: e.target.checked})}/>
+      </div>
+      <button className="popupButton" onClick={this.generateGIF} >Generate GIF 📸</button>
     </div>
     );
   }

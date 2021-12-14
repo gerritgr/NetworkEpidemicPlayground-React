@@ -3,6 +3,7 @@
 }
 
 .ColorPicker {
+  cursor: pointer;
   display: inline-block;
   margin-left: 150px;
   margin-top: 5px;
