@@ -7,17 +7,21 @@ import GIF from '@dhdbstjr98/gif.js';
 class GIFGenerator extends React.Component {
   constructor() {
     super();
-    this.state = {step: 0, duration: 5, loop: true, background: "#ffffff"};
+    this.state = {step: 0, duration: 5, loop: true, background: "#ffffff", rendering: false};
     this.animationId = 0;
   }
 
 
   generateGIF = () => {
+    if(this.state.rendering) {
+      return;
+    }
     //clean input
     if(!Math.abs(Number(this.state.duration)) > 0) {
       console.log("Only numbers are allowed in duration!");
       return;
     }
+    this.setState({rendering: true});
     this.setState({duration: Math.abs(this.state.duration)});
     var gif = new GIF( {
       workers: 2,
@@ -28,6 +32,7 @@ class GIFGenerator extends React.Component {
 
     //set download trigger
     gif.on('finished', function(blob) {
+      this.setState({rendering: false});
       const link = document.createElement('a');
       // create a blobURI pointing to our Blob
       link.href = URL.createObjectURL(blob);
@@ -38,7 +43,7 @@ class GIFGenerator extends React.Component {
       link.remove();
       // in case the Blob uses a lot of memory
       setTimeout(() => URL.revokeObjectURL(link.href), 7000);
-    });
+    }.bind(this));
 
     let stepBefore = this.state.step;
 
@@ -70,6 +75,13 @@ class GIFGenerator extends React.Component {
       {copy: true, delay: this.state.duration / this.props.animationLength});
   }
 
+  getButtonText = () => {
+    if(this.state.rendering) {
+      return "Please Wait ...";
+    }
+    return "Generate GIF 📸";
+  }
+
     //onChange={(e) => this.setState({loop: e.state.value})}>
   render() {
     return (
@@ -95,7 +107,7 @@ class GIFGenerator extends React.Component {
         onChange={(e) => 
         this.setState({loop: e.target.checked})}/>
       </div>
-      <button className="popupButton" onClick={this.generateGIF} >Generate GIF 📸</button>
+      <button className="popupButton" onClick={this.generateGIF} >{this.getButtonText()}</button>
     </div>
     );
   }

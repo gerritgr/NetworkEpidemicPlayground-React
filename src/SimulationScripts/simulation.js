@@ -47,13 +47,15 @@ function get_next_state(current_labels){
 	//iterate over edges
 	for(var edge in graph_as_edgelist){
 		edge = graph_as_edgelist[edge];
-		let node1 = edge;
-		let node2 = edge;
+		let node1 = edge[0];
+		let node2 = edge[1];
+    if(node2 === 0) {
+    }
 		let current_state1 = current_labels[node1];
 		let current_state2 = current_labels[node2];
 		for(var currentRule in rules){
 			currentRule = rules[currentRule];
-			if(typeof currentRule[0] == typeof ""){
+      if(typeof currentRule[0] == typeof ""){
 				//is spont. rule
 				continue
 			}

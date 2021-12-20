@@ -7,6 +7,7 @@ class Custom extends Model  {
       [["S", "I", 0.5]],
       20, 0.05);
     this.state = {input: ""};
+    this.defaultColors = ["#0fa75f", "#ff225b", "#03aaf9", "#fffb00", "#cc0080"];
   }
 
   textFieldChanged = (e) => {
@@ -34,13 +35,14 @@ class Custom extends Model  {
       return null;
     }
 
+    let newStates = [];
     let newRules = [];
     //regex to match states
     cleaned.forEach((element) => {
       element = element.split(",");
       //test if we have a simple or complex rule
       if (element.length === 3) {
-        newRules.push(this.parseValidRule(element));
+        newRules.push(this.parseValidRule(element, newStates));
       } else {
         //check if there are an equal number of states left and right
         if (element.length % 2 === 0) {
@@ -51,7 +53,7 @@ class Custom extends Model  {
           return;
         }
         //this rule is correct, we can continue
-        newRules.push(this.parseValidRule(element));
+        newRules.push(this.parseValidRule(element, newStates));
       }
     });
     if (newRules.length === 0) {
@@ -59,26 +61,33 @@ class Custom extends Model  {
     }
 
     //parse states
-    let newStates = [];
-    
-    //only add states that are not duplicates
-    for (var i = 0; i < newRules.length; i++) {
-      for (var j = 0; j < newRules[i].length - 1; j++) {
-        let currentState = newRules[i][j];
-        if (!newStates.includes(currentState)) {
-          newStates.push(currentState);
-        }
-      }
-    }
+    //for (var i = 0; i < newRules.length; i++) {
+      //for (var j = 0; j < newRules[i].length - 1; j++) {
+        //let currentState = newRules[i][j];
+        //if (!newStates.includes(currentState)) {
+          //newStates.push(currentState);
+        //}
+      //}
+    //}
 
     //convert states to states with distribution and color
-    newStates = newStates.map((x) => [x, 1/newStates.length, "#ffffff"]);
+    console.log(newStates);
+    //newStates = newStates.map((x) => [x, 1/newStates.length, "#ffffff"]);
+    let i = -1;
+    newStates = newStates.map((x) =>  {
+      i++;
+      if(i < 5) {
+        return [x, 1/newStates.length, this.defaultColors[i]];
+      }
+      return [x, 1/newStates.length, "#ffffff"];
+    });
+    console.log(newStates);
 
   
     return {rules: newRules, states: newStates};
   }
 
-  parseValidRule(rule) {
+  parseValidRule(rule, newStates) {
     //filter states
     let subString = rule.slice(0, rule.length - 1);
 
@@ -88,16 +97,37 @@ class Custom extends Model  {
     //match probability
     re = /([0-9]*[.])?[0-9]+/g
     let probability = rule[rule.length - 1].match(re);
-    return [...subString, Number(probability)];
+    //add states
+    subString.forEach((e) => {
+      if(!newStates.includes(e)) {
+        newStates.push(e);
+      }
+    })
+    //spontaneous rule
+    if(subString.length === 2) {
+      return [...subString, Number(probability)];
+    }
+    //complex (edge) rule
+    let leftSide = [subString.slice(0, subString.length / 2)];
+    let rightSide = [subString.slice(subString.length / 2, subString.length)];
+    let out = [leftSide, rightSide, Number(probability)];
+    console.log(out)
+    return out;
+    //let out = [0,0,0];
+    //out[0] = (leftSide);
+    //out[1] = (rightSide);
+    //out[2] = (Number(probability));
+    //return out;
   }
 
   //override render
   render() {
     return(<div>
-      <h3>Enter the rules like: <code>("S","I",0.1), (("I","I"),("S","I"),0.3)</code></h3>
+      <h3>Enter the rules like: <code>("S","I",0.1), (("I","S"),("I","I"),0.3)</code></h3>
       <textarea className="CustomInput CustomModel" type="text" onChange={this.textFieldChanged}
       value={this.state.input} required pattern="[[(]'?[\w\d]+'?,'?[\w\d]+'?,([0-9]*[.])?[0-9]+[)\]][\s\t]*|[([][([]('?[\w\d]+'?,)+'?[\w\d]+'?[\])],[([]('?[\w\d]+'?,)+'?[\w\d]+'?[\])],([0-9]*[.])?[0-9]+[\])][\s\t]*"
-      placeholder='("S","I",0.1), (("I","I"),("S","I"),0.3)'/>
+      placeholder='("S","I",0.1), (("I","S"),("I","I"),0.3)'/>
+        <h3 id="selectDistributionHeader">Initial Distribution</h3>
       {this.buildSlidersDistribution()}
       </div>);
   }
