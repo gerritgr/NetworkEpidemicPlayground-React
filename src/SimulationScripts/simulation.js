@@ -49,8 +49,6 @@ function get_next_state(current_labels){
 		edge = graph_as_edgelist[edge];
 		let node1 = edge[0];
 		let node2 = edge[1];
-    if(node2 === 0) {
-    }
 		let current_state1 = current_labels[node1];
 		let current_state2 = current_labels[node2];
 		for(var currentRule in rules){
@@ -59,7 +57,6 @@ function get_next_state(current_labels){
 				//is spont. rule
 				continue
 			}
-      console.log("works")
 			if((current_state1 === currentRule[0][0] && current_state2 === currentRule[0][1]) || (current_state2 === currentRule[0][0] && current_state1 === currentRule[0][1])){
 				let current_fireing_time = randomExponential(currentRule[2]);
 				if(current_fireing_time < fastes_firing_time){

@@ -121,7 +121,6 @@ class Graph extends React.Component {
     this.neverPlayed = false;
     //check if we pause the animation
     clearInterval(this.animationId);
-    console.log("new animation started");
     this.setState({playing: false});
     //first we need to normalize the distribution
     this.props.normalize();
@@ -147,9 +146,7 @@ class Graph extends React.Component {
       return;
     }
     if (this.state.step > this.props.animationLength) {
-      console.log("finished animation");
-      clearInterval(this.animationId);
-      this.setState({playing: false});
+      this.finishAnimation();
       return;
       //this.setState({step: 0}, () => {
         //return;
@@ -172,11 +169,20 @@ class Graph extends React.Component {
       this.cy.getElementById(allNodes[i].id()).style('background-color', color); }
 
     if (increment) {
-      this.setState({step: this.state.step + 1});
+      if (this.state.step < this.props.animationLength) {
+        this.setState({step: this.state.step + 1});
+      } else {
+        this.finishAnimation();
+      }
     } else {
       //update
       this.setState({});
     }
+  }
+
+  finishAnimation() {
+    clearInterval(this.animationId);
+    this.setState({playing: false, step: this.props.animationLength});
   }
 
   visualizeSpecificStep = (e) => {

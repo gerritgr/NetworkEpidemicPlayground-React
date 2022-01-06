@@ -71,7 +71,6 @@ class Custom extends Model  {
     //}
 
     //convert states to states with distribution and color
-    console.log(newStates);
     //newStates = newStates.map((x) => [x, 1/newStates.length, "#ffffff"]);
     let i = -1;
     newStates = newStates.map((x) =>  {
@@ -81,7 +80,6 @@ class Custom extends Model  {
       }
       return [x, 1/newStates.length, "#ffffff"];
     });
-    console.log(newStates);
 
   
     return {rules: newRules, states: newStates};
@@ -111,7 +109,6 @@ class Custom extends Model  {
     let leftSide = [subString.slice(0, subString.length / 2)];
     let rightSide = [subString.slice(subString.length / 2, subString.length)];
     let out = [leftSide, rightSide, Number(probability)];
-    console.log(out)
     return out;
     //let out = [0,0,0];
     //out[0] = (leftSide);

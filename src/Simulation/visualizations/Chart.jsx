@@ -5,7 +5,6 @@ import '../../css/nv3d.css'
 
 class Chart extends React.Component {
   calculateChartData = () => {
-    console.log(this.props.animationLength)
     for (let i = 0; i < this.props.stateCounts.length; i++) {
       //set color
       this.props.stateCounts[i].color = 
