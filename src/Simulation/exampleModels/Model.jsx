@@ -1,5 +1,4 @@
 import React from "react";
-import DistributionStatus from "../DistributionStatus";
 import Slider from "../Slider";
 import '../../css/Model.css';
 

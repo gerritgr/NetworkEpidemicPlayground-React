@@ -25,11 +25,13 @@ class Visual extends React.Component {
       //if (this.checkIfStatesAreEqual(data, lastState, i)) {
         //lastState = i;
       //}
+      //console.log(data[lastState], data[i])
+      //console.log(data[lastState] === data[i])
       if (data[lastState] === data[i]) {
         lastState = i;
       }
     }
-    this.setState({animationLength: lastState + 1})
+    this.setState({animationLength: lastState})
     //this.animationLength = lastState + 1;
   }
 
@@ -38,11 +40,12 @@ class Visual extends React.Component {
     //normalize
     this.props.normalize();
     //then recalculate
-    this.props.recalculateFuntion();
-    //now crop
-    this.cropAnimation();
-    //update the colors for the chart
-    this.setState({newColors: this.props.colors});
+    this.props.recalculateFuntion().then(() => {
+      //now crop
+      this.cropAnimation();
+      //update the colors for the chart
+      this.setState({newColors: this.props.colors});
+    });
   }
 
   switchView = () => {

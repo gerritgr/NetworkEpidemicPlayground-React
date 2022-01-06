@@ -59,6 +59,7 @@ function get_next_state(current_labels){
 				//is spont. rule
 				continue
 			}
+      console.log("works")
 			if((current_state1 === currentRule[0][0] && current_state2 === currentRule[0][1]) || (current_state2 === currentRule[0][0] && current_state1 === currentRule[0][1])){
 				let current_fireing_time = randomExponential(currentRule[2]);
 				if(current_fireing_time < fastes_firing_time){
@@ -101,7 +102,7 @@ function get_next_state(current_labels){
 function count_states(current_labels){
 	var counter = [];
 
-  for (var _ in states) {
+  for (var j = 0; j < states.length; j++) {
     counter.push(0);
   }
 

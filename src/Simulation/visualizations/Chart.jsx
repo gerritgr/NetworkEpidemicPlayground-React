@@ -2,10 +2,10 @@ import React from "react";
 import NVD3Chart from 'react-nvd3';
 import '../../css/Chart.css'
 import '../../css/nv3d.css'
-import d3 from 'd3';
 
 class Chart extends React.Component {
   calculateChartData = () => {
+    console.log(this.props.animationLength)
     for (let i = 0; i < this.props.stateCounts.length; i++) {
       //set color
       this.props.stateCounts[i].color = 
@@ -14,7 +14,7 @@ class Chart extends React.Component {
         )[1]
       //apply cropping
       this.props.stateCounts[i]["values"] = 
-        this.props.stateCounts[i]["values"].slice(0, this.props.animationLength);
+        this.props.stateCounts[i]["values"].slice(0, this.props.animationLength + 1);
     }
     return this.props.stateCounts;
   }
@@ -22,9 +22,9 @@ class Chart extends React.Component {
   render() {
     return(
       <div id="chart">
-        <NVD3Chart type="stackedAreaChart" xAxis={{ tickFormat: (d) => d + 1}} datum={this.calculateChartData} x={(d) => d[0]} y={(d) => d[1]} />
-        </div>);
-}
+        <NVD3Chart type="stackedAreaChart" xAxis={{ tickFormat: (d) => d}} datum={this.calculateChartData} x={(d) => d[0]} y={(d) => d[1]} />
+      </div>);
+  }
 }
 
 export default Chart;

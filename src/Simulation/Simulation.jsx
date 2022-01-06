@@ -34,7 +34,7 @@ class Simulation extends React.Component{
 		this.state = {rules: rules, states: states, initial_distribution: initial_distribution, graphData: graphData, horizon: 20.0, selectedNetwork: this.networkObject, selectedModel: this.modelObject, simulationData: undefined,};
 	}
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.recalculate();
   }
 
@@ -59,7 +59,7 @@ class Simulation extends React.Component{
     this.setState({selectedModel: newModel});
   }
 
-	recalculate(){
+ recalculate(){
     var selectedModel = this.state.selectedModel;
     var graphData = edgeListToGraph(this.state.selectedNetwork.getGraph());
     var rules = selectedModel.getRules();
@@ -81,6 +81,9 @@ class Simulation extends React.Component{
     var newSimulationData = simulate(rules, states, initial_distribution, this.state.selectedNetwork.getGraph(), this.state.horizon);
 
     this.setState({graphData: graphData, rules: rules, states: states, initial_distribution: initial_distribution, simulationData: newSimulationData});
+
+   //return a promise to be sure the data is saved
+   return Promise.resolve("Done");
 	}
 
 	render(){

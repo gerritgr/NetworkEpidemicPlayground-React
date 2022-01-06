@@ -1,7 +1,6 @@
 import React from 'react';
 import '../../css/Graph.css';
 import '../../css/GIFGenerator.css';
-import Slider from '../Slider';
 import GIF from '@dhdbstjr98/gif.js';
 
 class GIFGenerator extends React.Component {
