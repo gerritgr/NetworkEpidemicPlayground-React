@@ -105,7 +105,13 @@ class Graph extends React.Component {
   }
   
   changeAnimationDuration = (e) => {
-    this.setState({animationDuration: e.target.value});
+    this.setState({animationDuration: e.target.value,
+      playing: false, step: 0
+    }, () => {
+      this.stepTime = Math.abs(this.state.animationDuration) * 1000 / this.props.animationLength;
+      clearInterval(this.animationId);
+      this.visualizeOneStep(false);
+    });
   }
   
   visualizeSimulation = () => {
@@ -118,12 +124,13 @@ class Graph extends React.Component {
       this.setState({playing: true});
       return;
     }
+    console.log("here")
     this.neverPlayed = false;
     //check if we pause the animation
     clearInterval(this.animationId);
     this.setState({playing: false});
     //first we need to normalize the distribution
-    this.props.normalize();
+    //this.props.normalize();
 
     this.setState({step: 0}, () => {
       if (this.state.animationDuration <= 0) {
