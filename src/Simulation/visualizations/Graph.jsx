@@ -124,7 +124,6 @@ class Graph extends React.Component {
       this.setState({playing: true});
       return;
     }
-    console.log("here")
     this.neverPlayed = false;
     //check if we pause the animation
     clearInterval(this.animationId);
