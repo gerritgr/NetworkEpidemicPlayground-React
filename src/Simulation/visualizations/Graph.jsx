@@ -187,8 +187,8 @@ class Graph extends React.Component {
   }
 
   finishAnimation() {
-    clearInterval(this.animationId);
-    this.setState({playing: false, step: this.props.animationLength});
+    //clearInterval(this.animationId);
+    //this.setState({playing: false, step: this.props.animationLength});
   }
 
   visualizeSpecificStep = (e) => {
@@ -218,7 +218,7 @@ class Graph extends React.Component {
         {close => (
         <div className="modal">
           <button className="close" onClick={() => {close()}} >&times;</button>
-          <GIFGenerator setState={this.setState.bind(this)} state={this.state} visualizeOneStep={this.visualizeOneStep} animationLength={this.props.animationLength}/>
+          <GIFGenerator setState={this.setState.bind(this)} state={this.state} visualizeSpecificStep={this.visualizeSpecificStep} animationLength={this.props.animationLength}/>
         </div>
       )}
       </Popup>

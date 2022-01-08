@@ -27,7 +27,7 @@ class GIFGenerator extends React.Component {
           workers: 2,
           quality: 10,
           repeat: this.state.loop? 0 : -1,
-          background: this.state.background
+          background: this.state.background,
         });
 
         //set download trigger
@@ -45,37 +45,46 @@ class GIFGenerator extends React.Component {
           setTimeout(() => URL.revokeObjectURL(link.href), 7000);
         }.bind(this));
 
-        let stepBefore = this.state.step;
 
         //clear playing animation
         clearInterval(this.animationId);
 
         this.props.setState({step: 0}, () => {
-          this.animationId = setInterval(this.grabImageAndNextStep.bind(null, gif, stepBefore,this.state.duration * 1000 / this.props.animationLength), 1);
+          this.animationId = setInterval(this.grabImageAndNextStep.bind(null, gif, this.state.duration * 1000 / this.props.animationLength), 1);
           this.props.setState({playing: true});
         });
       });
   }
 
-  grabImageAndNextStep = (gif, stepBefore, delay) => {
+  grabImageAndNextStep = (gif, delay) => {
     //check if we are at the end
-    if (this.props.state.step >= this.props.animationLength) {
-      //add last frame and finish
-      this.props.visualizeOneStep();
+    if (this.state.step > this.props.animationLength) {
       clearInterval(this.animationId);
+      //add last frame and finish
+      //mock slider
+      this.visualizeStep(this.state.step);
       gif.addFrame(document.querySelectorAll("canvas")[2],
         {copy: true, delay: delay});
+
       //reset animation
-      this.props.setState({playing: false});
-      this.props.setState({step: stepBefore});
-      this.props.visualizeOneStep(false);
+      this.props.setState({playing: false, step: 0 });
+      this.props.visualizeSpecificStep({target: {value: 0}});
+
       gif.render();
       return;
     }
-    this.props.visualizeOneStep();
+    //mock slider
+    this.visualizeStep(this.state.step);
     //select the canvas (this is a bit hacky but ey it works)
     gif.addFrame(document.querySelectorAll("canvas")[2],
       {copy: true, delay: delay});
+    this.setState({step: this.state.step + 1});
+  }
+
+  //visualize one step... mocking the slider
+  visualizeStep = (i) => {
+    //the object is created to simulate a slider movement
+    this.props.visualizeSpecificStep({target: {value: i}});
   }
 
   getButtonText = () => {
