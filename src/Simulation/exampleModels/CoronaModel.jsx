@@ -2,7 +2,7 @@ import Model from "./Model";
 
 class CoronaModel extends Model  {
   constructor() {
-    super("CoronaModel",
+    super("Corona-Model",
       [["S", 0.965, "#1F85DE"], ["I1", 0.005, "#de1f50"], ["I2", 0.005, "#b91fde"], ["I3", 0.005, "#1fdea7"], ["R", 0.005, "#8fde1f"], ["V", 0.005, "#de801f"], ["D", 0.005, "#3b0b0b"]],
       [[["I1", "S"], ["I2", "E"], 0.15],
         [["I2", "S"], ["I2", "E"], 0.05],

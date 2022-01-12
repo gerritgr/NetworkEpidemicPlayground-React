@@ -21,7 +21,7 @@ class Chart extends React.Component {
   render() {
     return(
       <div id="chart">
-        <NVD3Chart type="stackedAreaChart" xAxis={{ tickFormat: (d) => d}} datum={this.calculateChartData} x={(d) => d[0]} y={(d) => d[1]} />
+        <NVD3Chart type="stackedAreaChart" xAxis={{ tickFormat: (d) => this.props.timeSteps[d]}} datum={this.calculateChartData} x={(d) => d[0]} y={(d) => d[1]} />
       </div>);
   }
 }

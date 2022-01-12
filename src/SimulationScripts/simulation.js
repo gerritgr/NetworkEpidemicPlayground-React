@@ -97,6 +97,9 @@ function get_next_state(current_labels){
 
 
 function count_states(current_labels){
+  //add time steps
+  time_steps.push(timepoints_samples[0]);
+
 	var counter = [];
 
   for (var j = 0; j < states.length; j++) {
@@ -117,6 +120,7 @@ function count_states(current_labels){
   for (var i = 0; i < states.length; i++) {
     state_counts[i]["values"].push( [newX, counter[i]] );
   }
+  console.log(state_counts)
 }
 
 function generateNodes(edgelist){
@@ -193,6 +197,7 @@ let current_labels;
 let global_clock;
 let labels = [];
 let state_counts = {};
+let time_steps = [];
 
 function simulate(newRules, newStates, newDistr, newGraph, newHorizon){
 	simulation = [];
@@ -226,7 +231,8 @@ function simulate(newRules, newStates, newDistr, newGraph, newHorizon){
 		}
 		current_labels = new_labels;
 	}
-	return {data: simulation, stateCounts: state_counts};
+  console.log(time_steps)
+	return {data: simulation, stateCounts: state_counts, timeSteps: time_steps};
 }
 
 export default simulate;

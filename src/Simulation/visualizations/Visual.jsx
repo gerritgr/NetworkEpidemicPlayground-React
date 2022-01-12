@@ -68,7 +68,7 @@ class Visual extends React.Component {
     } else {
       return (
         <div id="chart">
-          <Chart stateCounts={this.props.simulationData.stateCounts} colors={this.state.newColors} animationLength={this.state.animationLength}/>
+          <Chart stateCounts={this.props.simulationData.stateCounts} timeSteps={this.props.simulationData.timeSteps} colors={this.state.newColors} animationLength={this.state.animationLength}/>
         </div>
         );
     }

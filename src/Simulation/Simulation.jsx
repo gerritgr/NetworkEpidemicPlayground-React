@@ -20,7 +20,7 @@ class Simulation extends React.Component{
 		this.modelChanged = this.modelChanged.bind(this);
 		this.recalculate = this.recalculate.bind(this);
 
-    //HERE WE SET THE DEFAULT VALUES, THIS MUST BE CONSISTEN!!!!!
+    //HERE WE SET THE DEFAULT VALUES, THIS MUST BE CONSISTENT!!!!!
 		this.networkObject = new KarateClass();
     this.modelObject = new SIModel();
 
