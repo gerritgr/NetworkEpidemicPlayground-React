@@ -31,16 +31,11 @@ class Simulation extends React.Component{
     var states = selectedModel.getStates();
     var initial_distribution = selectedModel.getDistribution();
 
-		this.state = {rules: rules, states: states, initial_distribution: initial_distribution, graphData: graphData, horizon: 20.0, selectedNetwork: this.networkObject, selectedModel: this.modelObject, simulationData: undefined,};
+    //we have to run the simulation once in the beginning... sadly componentWillUnmount is deprecated
+    var newSimulationData = simulate(rules, states, initial_distribution, this.networkObject.getGraph(), 20.0);
+
+		this.state = {rules: rules, states: states, initial_distribution: initial_distribution, graphData: graphData, horizon: 20.0, selectedNetwork: this.networkObject, selectedModel: this.modelObject, simulationData: newSimulationData,};
 	}
-
-  UNSAFE_componentWillMount() {
-    this.recalculate();
-  }
-
-	//componentDidMount(){
-    //this.recalculate();
-	//}
 
 	horizonChange(e){
 		if(e.target.value > 200){

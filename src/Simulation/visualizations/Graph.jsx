@@ -28,6 +28,7 @@ class Graph extends React.Component {
   componentDidUpdate(prevProps, _) {
     //only recalculate the layout if graph has changed
     if (prevProps.graphData !== this.props.graphData) {
+      console.log("updated component => error");
       this.layoutGraph();
       this.setState({step: 0}, () => {
         //first crop the animation
@@ -36,8 +37,10 @@ class Graph extends React.Component {
         this.visualizeOneStep(false);
       });
     }
+  }
 
-    //we could check here if the simulation should start displaying
+  componentWillUnmount() {
+    clearInterval(this.animationId);
   }
 
   //layouting algorithm

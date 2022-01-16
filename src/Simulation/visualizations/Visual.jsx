@@ -9,12 +9,16 @@ class Visual extends React.Component {
     this.cy = React.createRef();
     this.stepTime = 0;
     this.neverPlayed = true;
-    this.state ={animationDuration: 4, step: 0, playing: false, animationLength: 100, newColors: null, currentView: "graph"};
+    this.state ={animationDuration: 4, step: 0, playing: false, animationLength: 100, cachedColors: this.props.colors, cachedSimulationData: this.props.simulationData, cachedGraphData: this.props.graphData, currentView: "graph"};
   }
 
   componentDidMount() {
     this.cropAnimation();
-    this.setState({newColors: this.props.colors});
+    this.setState({
+      cachedColors: this.props.colors,
+      cachedSimulationData: this.props.simulationData,
+      cachedGraphData: this.props.graphData
+    });
   }
 
   //remove steps where the animation does not change
@@ -43,8 +47,12 @@ class Visual extends React.Component {
     this.props.recalculateFuntion().then(() => {
       //now crop
       this.cropAnimation();
-      //update the colors for the chart
-      this.setState({newColors: this.props.colors});
+      //we now update the cached data
+      this.setState({
+        cachedColors: this.props.colors,
+        cachedSimulationData: this.props.simulationData,
+        cachedGraphData: this.props.graphData
+      });
     });
   }
 
@@ -63,12 +71,12 @@ class Visual extends React.Component {
   showGraphOrChart = () => {
     if (this.state.currentView === "graph") {
       return (
-        <Graph animationLength={this.state.animationLength} graphData={this.props.graphData} normalize={this.props.normalize} colors={this.props.colors} simulationData={this.props.simulationData.data}/>
+        <Graph animationLength={this.state.animationLength} graphData={this.state.cachedGraphData} normalize={this.props.normalize} colors={this.state.cachedColors} simulationData={this.state.cachedSimulationData.data}/>
         );
     } else {
       return (
         <div id="chart">
-          <Chart stateCounts={this.props.simulationData.stateCounts} timeSteps={this.props.simulationData.timeSteps} colors={this.state.newColors} animationLength={this.state.animationLength}/>
+          <Chart stateCounts={this.state.cachedSimulationData.stateCounts} timeSteps={this.state.cachedSimulationData.timeSteps} colors={this.state.cachedColors} animationLength={this.state.animationLength}/>
         </div>
         );
     }
