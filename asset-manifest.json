@@ -1,20 +1,20 @@
 {
   "files": {
-    "main.css": "/JuliusHerrmann/NetworkEpidemicPlayground/static/css/main.ca232f30.chunk.css",
-    "main.js": "/JuliusHerrmann/NetworkEpidemicPlayground/static/js/main.07d66ac7.chunk.js",
-    "main.js.map": "/JuliusHerrmann/NetworkEpidemicPlayground/static/js/main.07d66ac7.chunk.js.map",
-    "runtime-main.js": "/JuliusHerrmann/NetworkEpidemicPlayground/static/js/runtime-main.6e2d52a3.js",
-    "runtime-main.js.map": "/JuliusHerrmann/NetworkEpidemicPlayground/static/js/runtime-main.6e2d52a3.js.map",
-    "static/js/2.dac3aad9.chunk.js": "/JuliusHerrmann/NetworkEpidemicPlayground/static/js/2.dac3aad9.chunk.js",
-    "static/js/2.dac3aad9.chunk.js.map": "/JuliusHerrmann/NetworkEpidemicPlayground/static/js/2.dac3aad9.chunk.js.map",
-    "static/js/3.9408d302.chunk.js": "/JuliusHerrmann/NetworkEpidemicPlayground/static/js/3.9408d302.chunk.js",
-    "static/js/3.9408d302.chunk.js.map": "/JuliusHerrmann/NetworkEpidemicPlayground/static/js/3.9408d302.chunk.js.map",
-    "index.html": "/JuliusHerrmann/NetworkEpidemicPlayground/index.html",
-    "static/css/main.ca232f30.chunk.css.map": "/JuliusHerrmann/NetworkEpidemicPlayground/static/css/main.ca232f30.chunk.css.map",
-    "static/js/2.dac3aad9.chunk.js.LICENSE.txt": "/JuliusHerrmann/NetworkEpidemicPlayground/static/js/2.dac3aad9.chunk.js.LICENSE.txt"
+    "main.css": "/NetworkEpidemicPlayground/static/css/main.ca232f30.chunk.css",
+    "main.js": "/NetworkEpidemicPlayground/static/js/main.07d66ac7.chunk.js",
+    "main.js.map": "/NetworkEpidemicPlayground/static/js/main.07d66ac7.chunk.js.map",
+    "runtime-main.js": "/NetworkEpidemicPlayground/static/js/runtime-main.403f747a.js",
+    "runtime-main.js.map": "/NetworkEpidemicPlayground/static/js/runtime-main.403f747a.js.map",
+    "static/js/2.dac3aad9.chunk.js": "/NetworkEpidemicPlayground/static/js/2.dac3aad9.chunk.js",
+    "static/js/2.dac3aad9.chunk.js.map": "/NetworkEpidemicPlayground/static/js/2.dac3aad9.chunk.js.map",
+    "static/js/3.9408d302.chunk.js": "/NetworkEpidemicPlayground/static/js/3.9408d302.chunk.js",
+    "static/js/3.9408d302.chunk.js.map": "/NetworkEpidemicPlayground/static/js/3.9408d302.chunk.js.map",
+    "index.html": "/NetworkEpidemicPlayground/index.html",
+    "static/css/main.ca232f30.chunk.css.map": "/NetworkEpidemicPlayground/static/css/main.ca232f30.chunk.css.map",
+    "static/js/2.dac3aad9.chunk.js.LICENSE.txt": "/NetworkEpidemicPlayground/static/js/2.dac3aad9.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.6e2d52a3.js",
+    "static/js/runtime-main.403f747a.js",
     "static/js/2.dac3aad9.chunk.js",
     "static/css/main.ca232f30.chunk.css",
     "static/js/main.07d66ac7.chunk.js"
