@@ -170,7 +170,9 @@ class Graph extends React.Component {
     for (var i = 0; i < allNodes.length; i++) {
       //the current state of the current node
       let state = data[this.state.step][i];
-      var color = this.props.colors.find(element => element[0] === state)[1];
+      let color = this.props.colors.find((element) => {
+        return element[0] === state;
+      })[1];
 
       this.cy.getElementById(allNodes[i].id()).style('background-color', color); }
 

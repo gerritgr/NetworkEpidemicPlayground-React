@@ -57,6 +57,7 @@ function get_next_state(current_labels){
 				//is spont. rule
 				continue
 			}
+      //console.log(current_state1, currentRule[0][0])
 			if((current_state1 === currentRule[0][0] && current_state2 === currentRule[0][1]) || (current_state2 === currentRule[0][0] && current_state1 === currentRule[0][1])){
 				let current_fireing_time = randomExponential(currentRule[2]);
 				if(current_fireing_time < fastes_firing_time){
@@ -120,7 +121,6 @@ function count_states(current_labels){
   for (var i = 0; i < states.length; i++) {
     state_counts[i]["values"].push( [newX, counter[i]] );
   }
-  console.log(state_counts)
 }
 
 function generateNodes(edgelist){
@@ -231,7 +231,6 @@ function simulate(newRules, newStates, newDistr, newGraph, newHorizon){
 		}
 		current_labels = new_labels;
 	}
-  console.log(time_steps)
 	return {data: simulation, stateCounts: state_counts, timeSteps: time_steps};
 }
 

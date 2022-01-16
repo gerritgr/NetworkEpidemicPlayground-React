@@ -20,6 +20,7 @@ class Custom extends Model  {
     }
     this.rules = parsedInput.rules;
     this.states = parsedInput.states;
+    console.log(this.rules, this.states);
   }
 
   parseInput(input) {
@@ -106,8 +107,8 @@ class Custom extends Model  {
       return [...subString, Number(probability)];
     }
     //complex (edge) rule
-    let leftSide = [subString.slice(0, subString.length / 2)];
-    let rightSide = [subString.slice(subString.length / 2, subString.length)];
+    let leftSide = subString.slice(0, subString.length / 2);
+    let rightSide = subString.slice(subString.length / 2, subString.length);
     let out = [leftSide, rightSide, Number(probability)];
     return out;
     //let out = [0,0,0];

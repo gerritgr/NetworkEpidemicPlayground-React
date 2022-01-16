@@ -18,7 +18,7 @@ class ModelSelector extends React.Component{
     this.custom = new Custom();
 
 		this.state = {predefinedModels: [this.SIModel, this.SEIRSModel, this.CoronaModel, this.custom]
-									, currentValue: "SI Model"};
+									, currentValue: "SI-Model"};
 		this.dropdownChanged = this.dropdownChanged.bind(this);
 		this.updateSelectedModel = this.updateSelectedModel.bind(this);
 		}
@@ -35,11 +35,11 @@ class ModelSelector extends React.Component{
 
 	renderCustomHtml(){
 		switch(this.state.currentValue){
-			case "SI Model":
+			case "SI-Model":
 				return <SIModel updateSelectedModel={this.updateSelectedModel}/>
-			case "SEIRSModel":
+			case "SEIRS-Model":
 				return <SEIRSModel updateSelectedModel={this.updateSelectedModel}/>
-			case "CoronaModel":
+			case "Corona-Model":
 				return <CoronaModel updateSelectedModel={this.updateSelectedModel}/>
 			case "Custom":
 				return <Custom updateSelectedModel={this.updateSelectedModel}/>
