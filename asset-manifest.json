@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/NetworkEpidemicPlayground/static/css/main.ca232f30.chunk.css",
-    "main.js": "/NetworkEpidemicPlayground/static/js/main.86d7bc11.chunk.js",
-    "main.js.map": "/NetworkEpidemicPlayground/static/js/main.86d7bc11.chunk.js.map",
+    "main.js": "/NetworkEpidemicPlayground/static/js/main.7a58cc6d.chunk.js",
+    "main.js.map": "/NetworkEpidemicPlayground/static/js/main.7a58cc6d.chunk.js.map",
     "runtime-main.js": "/NetworkEpidemicPlayground/static/js/runtime-main.403f747a.js",
     "runtime-main.js.map": "/NetworkEpidemicPlayground/static/js/runtime-main.403f747a.js.map",
     "static/js/2.dac3aad9.chunk.js": "/NetworkEpidemicPlayground/static/js/2.dac3aad9.chunk.js",
@@ -17,6 +17,6 @@
     "static/js/runtime-main.403f747a.js",
     "static/js/2.dac3aad9.chunk.js",
     "static/css/main.ca232f30.chunk.css",
-    "static/js/main.86d7bc11.chunk.js"
+    "static/js/main.7a58cc6d.chunk.js"
   ]
 }
