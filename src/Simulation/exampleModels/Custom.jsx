@@ -121,10 +121,10 @@ class Custom extends Model  {
   //override render
   render() {
     return(<div>
-      <h3>Enter the rules like: <code>("S","I",0.1), (("I","S"),("I","I"),0.3)</code></h3>
+      <h3>Enter the rules like: <code>("I","S",0.1), (("I","S"),("I","I"),0.3)</code></h3>
       <textarea className="CustomInput CustomModel" type="text" onChange={this.textFieldChanged}
       value={this.state.input} required pattern="[[(]'?[\w\d]+'?,'?[\w\d]+'?,([0-9]*[.])?[0-9]+[)\]][\s\t]*|[([][([]('?[\w\d]+'?,)+'?[\w\d]+'?[\])],[([]('?[\w\d]+'?,)+'?[\w\d]+'?[\])],([0-9]*[.])?[0-9]+[\])][\s\t]*"
-      placeholder='("S","I",0.1), (("I","S"),("I","I"),0.3)'/>
+      placeholder='("I","S",0.1), (("I","S"),("I","I"),0.3)'/>
         <h3 id="selectDistributionHeader">Initial Distribution</h3>
       {this.buildSlidersDistribution()}
       </div>);
