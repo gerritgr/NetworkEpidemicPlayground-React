@@ -4,6 +4,7 @@ Based on simultaion code by [Gerrit](https://github.com/gerritgr): [Repository](
 Frontend written by [Julius Herrmann](https://github.com/JuliusHerrmann)
 # Setup
 - Install node (and npm).
+- In package.json change the "homepage" entry to your domain
 - Clone repository and run "npm install".
 
 # To run locally
