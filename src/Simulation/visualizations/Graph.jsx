@@ -28,7 +28,6 @@ class Graph extends React.Component {
   componentDidUpdate(prevProps, _) {
     //only recalculate the layout if graph has changed
     if (prevProps.graphData !== this.props.graphData) {
-      console.log("updated component => error");
       this.layoutGraph();
       this.setState({step: 0}, () => {
         //first crop the animation
