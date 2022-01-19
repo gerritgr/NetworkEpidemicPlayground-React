@@ -1,4 +1,4 @@
-##Network Epidemic Playground
+## Network Epidemic Playground
 Based on simultaion code by [Gerrit](https://github.com/gerritgr): [Repository](https://github.com/gerritgr/NetworkEpidemicPlayground/blob/main/app.py)
 
 Frontend written by [Julius Herrmann](https://github.com/JuliusHerrmann)
