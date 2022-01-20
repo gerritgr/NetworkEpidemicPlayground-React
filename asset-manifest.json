@@ -1,20 +1,20 @@
 {
   "files": {
-    "main.css": "/NetworkEpidemicPlayground/static/css/main.ca232f30.chunk.css",
-    "main.js": "/NetworkEpidemicPlayground/static/js/main.7a58cc6d.chunk.js",
-    "main.js.map": "/NetworkEpidemicPlayground/static/js/main.7a58cc6d.chunk.js.map",
-    "runtime-main.js": "/NetworkEpidemicPlayground/static/js/runtime-main.403f747a.js",
-    "runtime-main.js.map": "/NetworkEpidemicPlayground/static/js/runtime-main.403f747a.js.map",
-    "static/js/2.dac3aad9.chunk.js": "/NetworkEpidemicPlayground/static/js/2.dac3aad9.chunk.js",
-    "static/js/2.dac3aad9.chunk.js.map": "/NetworkEpidemicPlayground/static/js/2.dac3aad9.chunk.js.map",
-    "static/js/3.9408d302.chunk.js": "/NetworkEpidemicPlayground/static/js/3.9408d302.chunk.js",
-    "static/js/3.9408d302.chunk.js.map": "/NetworkEpidemicPlayground/static/js/3.9408d302.chunk.js.map",
-    "index.html": "/NetworkEpidemicPlayground/index.html",
-    "static/css/main.ca232f30.chunk.css.map": "/NetworkEpidemicPlayground/static/css/main.ca232f30.chunk.css.map",
-    "static/js/2.dac3aad9.chunk.js.LICENSE.txt": "/NetworkEpidemicPlayground/static/js/2.dac3aad9.chunk.js.LICENSE.txt"
+    "main.css": "/NetworkEpidemicPlayground-React/static/css/main.ca232f30.chunk.css",
+    "main.js": "/NetworkEpidemicPlayground-React/static/js/main.7a58cc6d.chunk.js",
+    "main.js.map": "/NetworkEpidemicPlayground-React/static/js/main.7a58cc6d.chunk.js.map",
+    "runtime-main.js": "/NetworkEpidemicPlayground-React/static/js/runtime-main.c8af2b04.js",
+    "runtime-main.js.map": "/NetworkEpidemicPlayground-React/static/js/runtime-main.c8af2b04.js.map",
+    "static/js/2.dac3aad9.chunk.js": "/NetworkEpidemicPlayground-React/static/js/2.dac3aad9.chunk.js",
+    "static/js/2.dac3aad9.chunk.js.map": "/NetworkEpidemicPlayground-React/static/js/2.dac3aad9.chunk.js.map",
+    "static/js/3.9408d302.chunk.js": "/NetworkEpidemicPlayground-React/static/js/3.9408d302.chunk.js",
+    "static/js/3.9408d302.chunk.js.map": "/NetworkEpidemicPlayground-React/static/js/3.9408d302.chunk.js.map",
+    "index.html": "/NetworkEpidemicPlayground-React/index.html",
+    "static/css/main.ca232f30.chunk.css.map": "/NetworkEpidemicPlayground-React/static/css/main.ca232f30.chunk.css.map",
+    "static/js/2.dac3aad9.chunk.js.LICENSE.txt": "/NetworkEpidemicPlayground-React/static/js/2.dac3aad9.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.403f747a.js",
+    "static/js/runtime-main.c8af2b04.js",
     "static/js/2.dac3aad9.chunk.js",
     "static/css/main.ca232f30.chunk.css",
     "static/js/main.7a58cc6d.chunk.js"
