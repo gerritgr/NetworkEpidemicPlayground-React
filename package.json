@@ -1,7 +1,7 @@
 {
   "name": "visualization-app",
   "version": "0.1.0",
-  "homepage": "https://juliusherrmann.github.io/NetworkEpidemicPlayground/",
+  "homepage": "https://gerritgr.github.io/NetworkEpidemicPlayground/",
   "private": true,
   "dependencies": {
     "@dhdbstjr98/gif.js": "^1.0.2",
